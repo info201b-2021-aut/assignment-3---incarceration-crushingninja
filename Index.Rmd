@@ -7,32 +7,25 @@ The study uses the prison data available on GitHu:https://raw.githubusercontent.
 In addition to sampling the vars of interest, data preparation also involved removing all the rows with missing data. The summary statics results reveal that there were states with 0 males or o females in prison (min = 0). The max number of males in prison was 12633, while the max number of adult females in prison was 1302. The average number of adult males in prison was 750 while the average number of adult females in prison was 109. The min number of combined population in prison was 730 while the max number of combined adult population in prison was 8398739.
 
 # Importing data
-```{r}
+
 data<-read.csv('https://raw.githubusercontent.com/vera-institute/incarceration-trends/master/incarceration_trends.csv')
-```
 
-*Checking the variable Names*
-```{r}
+
+
+
 names(data)
-```
 
-*Examining the fisrt 6 rows of the data*
-```{r}
+
 head(data)
-```
 
-*Dropping all the rows with missing values*
-```{r}
+
 data<-data %>% drop_na()
-```
 
-*Checking the first 6 rows*
-```{r}
+
+
 head(data)
-```
 
-*Extracting vars of  interest to form a sample data*
-```{r}
+
 Fips<-data$fips
 Year<-data$year
 State<-data$state
@@ -42,57 +35,56 @@ Female<-data$female_adult_prison_pop
 combined_pop<-data$combined_pop
 prisonData<-data.frame(Fips,Year,State,County,Males,Female,combined_pop)
 head(prisonData)
-```
 
-*Summary Statistics*
-```{r}
+
+
 summary(prisonData)
-```
+
 
 
 # Trend Plots Over Time (Year)
 
 *1. Chart showing trends of time for the combined prison population*
-```{r}
+
 ggplot(data = prisonData)+
   geom_smooth(aes(x=Year,y=combined_pop))+
   labs(title = "Line plot showing trends combined prison population over Time"
        ,x="Time (Years)",y="combined prison Population")
-```
+
 
 *2. Chart showing trends of time for the male prison population*
-```{r}
+
 ggplot(data = prisonData)+
   geom_smooth(aes(x=Year,y=Males))+
   labs(title = "Line plot showing trends male prison population over Time"
        ,x="Time (Years)",y="Male prison Population")
-```
+
 
 *3. Chart showing trends of time for the female prison population*
-```{r}
+
 ggplot(data = prisonData)+
   geom_smooth(aes(x=Year,y=Female))+
   labs(title = "Line plot showing trends female prison population over Time"
        ,x="Time (Years)",y="Female prison Population")
-```
+
 
 
 # 2 A Chart comparing tow vars: Male prison population vs female prison populaiton 
-```{r}
+
 ggplot(data = prisonData)+
   geom_point(aes(x=Female,y=Males))+
   labs(title = "Scatter plot showing relationship between male 
                           and female prison populations"
        ,x="Female Population",y="Male Populaion")
-```
+
 
 # A map showing how the male populaitons vary by state
-```{r}
+
 plot_usmap(regions = "counties",col='blue') + 
   labs(title = "Male prisons by counties",
        subtitle = "A map showing how the male populaitons vary by Counties") + 
   theme(panel.background=element_blank())
-```
+
 
 # Summary 
 In essence, the combined prison population was steadily decreasing over time. Earlier periods had higher combined prison population than later periods.
